@@ -15,6 +15,8 @@
 
 <body>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
 	<header class="site-header">
         <div class ="container">
             <div class="wrapper">
@@ -27,7 +29,7 @@
                 <div class="d-flex flex-column justify-content-center">
                     <div class="p-4">
                         <button class="button-type">
-                            <a href="currencies.html">Currencies</a>
+                            <!-- <a href="currencies.html">Currencies</a> -->
                         </button>
                         
                     </div>
@@ -36,7 +38,7 @@
                 <div class="d-flex flex-column justify-content-center">
                     <div class="p-4">
                         <button class="button-type">
-                            <a href="currencies.html">News</a>
+                            <!-- <a href="currencies.html">News</a> -->
                         </button>
                         
                     </div>
@@ -45,7 +47,7 @@
                 <div class="d-flex flex-column justify-content-center">
                     <div class="p-4">
                         <button class="button-type">
-                            <a href="currencies.html">Forum</a>
+                            <!-- <a href="currencies.html">Forum</a> -->
                         </button>
                         
                     </div>
@@ -57,15 +59,116 @@
     
     <div class="container">
         <div class = "row">
-            <div class="col">
-                First Column
+            <div class="col-sm-4">
+                <div class = "col">
+                    <span>Currency Pair</span>
+                </div>
+
+                <div class = "row">
+                    <div class = "col">
+                        <span>EUR</span>
+                    </div>
+
+                    <div class = "col">
+                        <select id="select-cur" class="form-control">
+                            <option selected disabled>Select Currency Pair</option>
+                            <option value="ALL">ALL</option>
+                            <option value="USD">USD</option>
+                            <option value="AUD">AUD</option>
+                            <option value="CAD">CAD</option>
+                            <option value="MXN">MXN</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="list-view" id="change-view" style="display:none"> Change View</button>
+
             </div>
-            <div class="col">
-                Second Column
+            
+
+            <div class="col-sm-8">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Currency results</h3>
+                    </div>
+
+                    <div class="list-group" id="comments-list"> </div>
+
+                    <div class="row justify-content-around" id="row-list"> </div>
+
+                </div>
+
             </div>
         </div>
 
     </div>
+
+
+    <script>
+
+
+        $(document).ready(function(){
+    
+            var apiKey       = "e30eecb8e9a9d47300c05f75de85d012";
+            var cur          = "EUR";
+            var quoteCurName = "ALL";
+            
+            $("#select-cur").change(function(){
+                quoteCurName = $("#select-cur").val();
+                document.getElementById("change-view").style.display = null;
+                doApiRequest(quoteCurName);
+    
+                
+            });
+
+            $("#change-view").click(function(){
+                if(document.getElementById("change-view").classList.contains("list-view")) {
+                    document.getElementById("change-view").classList.remove("list-view");
+                    document.getElementById("change-view").classList.add("icon-view");
+                } else {
+                    document.getElementById("change-view").classList.remove("icon-view");
+                    document.getElementById("change-view").classList.add("list-view");
+                }
+
+                doApiRequest(quoteCurName);
+            });
+
+
+            function doApiRequest(quoteCurName){
+                
+                var myUrl = "http://data.fixer.io/api/latest?access_key="+apiKey+"&format=1";
+
+                if(quoteCurName != "ALL") {
+                    myUrl = myUrl+"&symbols="+quoteCurName;
+                }
+
+                document.getElementById("comments-list").innerHTML = "";
+                document.getElementById("row-list").innerHTML = "";
+
+                $.ajax({
+                    method: "GET",
+                    url: myUrl,
+                    dataType: "json"
+                }).done(function(data){
+                    $.each(data.rates, function(i,item) {
+                        if(document.getElementById("change-view").classList.contains("list-view")) {
+                            $("#comments-list").append('<div class="row"><div class="col">EUR' + i + '</div><div class="col">Exchange Rate: <input id="rate" value='+ item +'></div></div>');
+                        } else {
+                            $("#row-list").append('<div class="gray-color col-3 mb-3"> <div class="bold-view">EUR/' + i + ' </div><div> Rate: '+ item +' </div></div>');
+                        }
+                    });
+   
+                }).fail(function(){
+                    console.log("failed");
+                });
+            }
+            
+        });
+    
+        
+    
+    </script> 
 
 </body>
 

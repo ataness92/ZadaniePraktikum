@@ -5,11 +5,32 @@
     flex-shrink: 0;
 }
 
-element.style {
-}
+
 .site-header .site-title {
     -ms-flex-negative: 0;
     flex-shrink: 0;
+}
+
+
+.panel-default {
+    border-color: #ddd;
+}
+.panel {
+    margin-bottom: 20px;
+    background-color: rgb(225, 242, 243);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.panel-title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: inherit;
+    padding-left: 240px;
+    padding-right: 240px;
 }
 .site-title {
     width: 107px;
@@ -35,6 +56,15 @@ element.style {
     color: inherit;
 }
 
+.gray-color {
+    background-color: #29bc1e;
+    margin-right: 20px;
+
+}
+
+.bold-view{
+    font-weight: bold;
+}
 .site-title a:before {
 	background-image: url(../img/forex.jpg);
 	background-repeat: no-repeat;
